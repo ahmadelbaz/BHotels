@@ -19,7 +19,7 @@ class GuestProvider extends ChangeNotifier {
   }
 
   // Method to get all guests from database
-  Future<void> getAlGuests() async {
+  Future<void> getAllGuests() async {
     await myDatabase.hotelDatabase();
     _guests = await myDatabase.getAll('guest') as List<Guest>;
     notifyListeners();

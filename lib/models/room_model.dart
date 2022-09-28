@@ -58,7 +58,7 @@ class Room implements DatabaseModel {
       'description': roomDdescription,
       'branch_id': branchIdRoom,
       'room_type_id': roomTypeIdRoom,
-      'councurrent_pricetry_id': realPrice,
+      'current_price': realPrice,
       'is_available': isRoomAvailable,
     };
   }

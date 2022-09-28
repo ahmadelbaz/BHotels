@@ -11,6 +11,7 @@ import 'package:bhotels/models/reservation_model.dart';
 import 'package:bhotels/models/reservation_status_catalog_model.dart';
 import 'package:bhotels/models/room_model.dart';
 import 'package:bhotels/models/room_reserved_model.dart';
+import 'package:bhotels/models/room_type_model.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -85,13 +86,6 @@ class DBHelper extends ChangeNotifier {
   static const roomIdRoomReserved = roomId;
   static const price = 'price';
 
-  // static const reservationStatusEvents = 'reservation_status_events';
-
-  // static const reservationStatusEventsId = 'reservation_status_events_id';
-  // static const reservationStatusCatalogIdReservationStatus =
-  //     reservationStatusCatalogId;
-  // static const tsCreatedReservationStatus = 'tsCreated_status';
-
   static const reservationStatusCatalog = 'reservation_status_catalog';
 
   static const reservationStatusCatalogId = 'reservation_status_catalog_id';
@@ -126,7 +120,7 @@ class DBHelper extends ChangeNotifier {
       // Country Table and its data
       batch.execute('DROP TABLE IF EXISTS $country');
       batch.execute('''CREATE TABLE $country (
-      $categoryId INTEGER PRIMARY KEY AUTOINCREMENT, $countryName TEXT
+      $countryId INTEGER PRIMARY KEY AUTOINCREMENT, $countryName TEXT
       )''');
       // City Table and its data
       batch.execute('DROP TABLE IF EXISTS $city');
@@ -179,10 +173,40 @@ class DBHelper extends ChangeNotifier {
           $invoiceGuestId INTEGER PRIMARY KEY AUTOINCREMENT, $guestIdInvoice INTEGER, $reservationIdInvoice INTEGER, $invoiceAmount INTEGER, $tsIssued INTEGER, $tsPaid INTEGER, $tsCanceled INTEGER
       )''');
       // Adding default data to tables in DB
+      for (Country n in defaultCountreis) {
+        batch.insert('country', n.toMap()!,
+            conflictAlgorithm: ConflictAlgorithm.replace);
+        log('defaultCountreis no. = ${defaultCountreis.length}');
+      }
+      for (City n in defaultCities) {
+        batch.insert('city', n.toMap()!,
+            conflictAlgorithm: ConflictAlgorithm.replace);
+        log('defaultCities no. = ${defaultCities.length}');
+      }
+      for (Category n in defaultCategories) {
+        batch.insert('category', n.toMap()!,
+            conflictAlgorithm: ConflictAlgorithm.replace);
+        log('defaultCategories no. = ${defaultCategories.length}');
+      }
       for (Branch n in defaultBranches) {
         batch.insert('branch', n.toMap()!,
             conflictAlgorithm: ConflictAlgorithm.replace);
         log('branches no. = ${defaultBranches.length}');
+      }
+      for (RoomType n in defaultRoomTypes) {
+        batch.insert('room_type', n.toMap()!,
+            conflictAlgorithm: ConflictAlgorithm.replace);
+        log('defaultRoomTypes no. = ${defaultRoomTypes.length}');
+      }
+      for (Room n in defaultRooms) {
+        batch.insert('room', n.toMap()!,
+            conflictAlgorithm: ConflictAlgorithm.replace);
+        log('defaultRooms no. = ${defaultRooms.length}');
+      }
+      for (ReservationStatusCatalog n in defaultReservationCatalogs) {
+        batch.insert('reservation_status_catalog', n.toMap()!,
+            conflictAlgorithm: ConflictAlgorithm.replace);
+        log('defaultReservationCatalogs no. = ${defaultReservationCatalogs.length}');
       }
     }
 
@@ -254,6 +278,7 @@ class DBHelper extends ChangeNotifier {
     List<ReservationStatusCatalog> resStatusCatalogs = [];
     List<Room> rooms = [];
     List<RoomReserved> roomsReserved = [];
+    List<RoomType> roomsTypes = [];
     for (var item in maps) {
       switch (table) {
         case 'branch':
@@ -286,6 +311,9 @@ class DBHelper extends ChangeNotifier {
         case 'room_reserved':
           roomsReserved.add(RoomReserved.fromMap(item));
           break;
+        case 'room_type':
+          roomsTypes.add(RoomType.fromMap(item));
+          break;
       }
     }
     return table == 'branch'
@@ -306,6 +334,8 @@ class DBHelper extends ChangeNotifier {
                                     ? resStatusCatalogs
                                     : table == 'room'
                                         ? rooms
-                                        : roomsReserved;
+                                        : table == 'room_reserved'
+                                            ? roomsReserved
+                                            : roomsTypes;
   }
 }

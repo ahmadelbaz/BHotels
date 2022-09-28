@@ -1,8 +1,11 @@
 import 'dart:developer';
 
 import 'package:bhotels/main.dart';
+import 'package:bhotels/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../constants.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -11,16 +14,29 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, watch) {
     var branchProvider = watch(branchChangeNotifierProvider);
     var guestProvider = watch(guestChangeNotifierProvider);
-    log('Count : ${branchProvider.branches.length}');
+    var roomProvider = watch(roomChangeNotifierProvider);
+    log('Count : ${roomProvider.rooms.length}');
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: primaryColor,
+        elevation: 0.0,
+        title: const Text('Select Branch'),
+      ),
       body: Center(
         child: ListView.builder(
-          itemCount: guestProvider.guests.length,
+          itemCount: branchProvider.branches.length,
           itemBuilder: (ctx, index) {
-            return ListTile(
-              title: Text(guestProvider.guests[index].firstName),
-              subtitle: Text(guestProvider.guests[index].lastName),
-              trailing: Text(guestProvider.guests[index].id.toString()),
+            return Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: deviceSize.width * 0.05,
+                  vertical: deviceSize.height * 0.05),
+              child: TextButton(
+                onPressed: () {
+                  roomProvider.updateUserSelectedBranch(index);
+                  Navigator.of(context).pushNamed('/rooms_list');
+                },
+                child: CustomText(branchProvider.branches[index].name, 32),
+              ),
             );
           },
         ),

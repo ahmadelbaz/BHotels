@@ -12,9 +12,15 @@ class BranchesProvider extends ChangeNotifier {
   DBHelper myDatabase = DBHelper();
 
   // Method to get all branches from database
-  Future<void> getAllModes() async {
+  Future<void> getAllBranches() async {
     await myDatabase.hotelDatabase();
     _branches = await myDatabase.getAll('branch') as List<Branch>;
     notifyListeners();
+  }
+
+  // Method to return branch name using its id
+  String getBranchName(int id) {
+    var b = _branches.firstWhere((b) => b.id == id);
+    return b.name;
   }
 }

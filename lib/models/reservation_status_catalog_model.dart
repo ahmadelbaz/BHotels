@@ -12,7 +12,7 @@ class ReservationStatusCatalog implements DatabaseModel {
 
 // Handle the data that is coming from db
   ReservationStatusCatalog.fromMap(Map<String, dynamic> map) {
-    id = map['reservation_status_catalog_id'];
+    id = map['id'];
     name = map['status_name'];
   }
 
@@ -30,7 +30,7 @@ class ReservationStatusCatalog implements DatabaseModel {
   @override
   Map<String, dynamic>? toMap() {
     return {
-      'reservation_status_catalog_id': id,
+      'id': id,
       'status_name': name,
     };
   }

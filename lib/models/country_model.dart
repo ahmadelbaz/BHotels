@@ -12,7 +12,7 @@ class Country implements DatabaseModel {
 
 // Handle the data that is coming from db
   Country.fromMap(Map<String, dynamic> map) {
-    id = map['country_id'];
+    id = map['id'];
     name = map['country_name'];
   }
 
@@ -30,7 +30,7 @@ class Country implements DatabaseModel {
   @override
   Map<String, dynamic>? toMap() {
     return {
-      'country_id': id,
+      'id': id,
       'country_name': name,
     };
   }

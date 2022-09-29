@@ -31,7 +31,7 @@ class InvoiceGuest implements DatabaseModel {
     DateTime tsCanceledDate =
         DateTime.fromMillisecondsSinceEpoch(map['ts_canceled']);
     // Assign variables to values from db
-    id = map['guest_id'];
+    id = map['id'];
     guestIdInvoice = map['guest_id'];
     reservationIdInvoice = map['reservation_id'];
     invoiceAmount = realAmount;
@@ -60,7 +60,7 @@ class InvoiceGuest implements DatabaseModel {
     int tsPaidDate = tsPaid.millisecondsSinceEpoch;
     int tsCanceledDate = tsCanceled.millisecondsSinceEpoch;
     return {
-      'invoice_guest_id': id,
+      'id': id,
       'guest_id': guestIdInvoice,
       'reservation_id': reservationIdInvoice,
       'invoice_amount': storedAmount,

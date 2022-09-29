@@ -28,7 +28,7 @@ class Branch implements DatabaseModel {
   Branch.fromMap(Map<String, dynamic> map) {
     // Convert int to bool
     bool roomStatus = map['is_active'] == 1 ? true : false;
-    id = map['branch_id'];
+    id = map['id'];
     name = map['branch_name'];
     description = map['branch_description'];
     branchEmail = map['branch_email'];
@@ -55,7 +55,7 @@ class Branch implements DatabaseModel {
     // Convert bool to int
     int roomStatus = isAcive ? 1 : 0;
     return {
-      'branch_id': id,
+      'id': id,
       'branch_name': name,
       'branch_description': description,
       'branch_email': branchEmail,

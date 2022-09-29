@@ -18,7 +18,7 @@ class RoomReserved implements DatabaseModel {
   RoomReserved.fromMap(Map<String, dynamic> map) {
     // Convert int to double
     double realPrice = map['price'] / 100;
-    id = map['room_reserved_id'];
+    id = map['id'];
     reservationIdRoomReserved = map['reservation_id'];
     roomIdRoomReserved = map['room_id'];
     price = realPrice;
@@ -40,7 +40,7 @@ class RoomReserved implements DatabaseModel {
     // Convert double to int
     int realPrice = (price * 100).round();
     return {
-      'room_reserved_id': id,
+      'id': id,
       'reservation_id': reservationIdRoomReserved,
       'room_id': roomIdRoomReserved,
       'price': realPrice,

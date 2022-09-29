@@ -11,7 +11,7 @@ class ReservationProvider extends ChangeNotifier {
   DBHelper myDatabase = DBHelper();
 
   // Insert new reservation into database
-  Future<void> insertNewGuest(Reservation model) async {
+  Future<void> insertNewReservation(Reservation model) async {
     await myDatabase.hotelDatabase();
     _reservations.add(model);
     await myDatabase.insert(model);
@@ -22,6 +22,14 @@ class ReservationProvider extends ChangeNotifier {
   Future<void> getAllReservations() async {
     await myDatabase.hotelDatabase();
     _reservations = await myDatabase.getAll('reservation') as List<Reservation>;
+    notifyListeners();
+  }
+
+  // Clear all reservations
+  Future<void> clearReservations() async {
+    await myDatabase.hotelDatabase();
+    _reservations.clear();
+    await myDatabase.clearTable('reservation');
     notifyListeners();
   }
 }

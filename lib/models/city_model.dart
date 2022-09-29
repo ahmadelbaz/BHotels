@@ -16,7 +16,7 @@ class City implements DatabaseModel {
 
 // Handle the data that is coming from db
   City.fromMap(Map<String, dynamic> map) {
-    id = map['city_id'];
+    id = map['id'];
     name = map['city_name'];
     postalCode = map['postal_code'];
     countryIdCity = map['country_id'];
@@ -36,7 +36,7 @@ class City implements DatabaseModel {
   @override
   Map<String, dynamic>? toMap() {
     return {
-      'city_id': id,
+      'id': id,
       'city_name': name,
       'postal_code': postalCode,
       'country_id': countryIdCity,

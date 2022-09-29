@@ -26,7 +26,7 @@ class Room implements DatabaseModel {
     bool isRoomAvailable = map['is_available'] == 1 ? true : false;
     // Convert int to double
     double reaPrice = map['current_price'] / 100;
-    id = map['room_id'];
+    id = map['id'];
     name = map['room_name'];
     roomDdescription = map['description'];
     branchIdRoom = map['branch_id'];
@@ -53,7 +53,7 @@ class Room implements DatabaseModel {
     // Convert double to int
     int realPrice = (currentPrice * 100).round();
     return {
-      'room_id': id,
+      'id': id,
       'room_name': name,
       'description': roomDdescription,
       'branch_id': branchIdRoom,

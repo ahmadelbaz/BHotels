@@ -5,22 +5,24 @@ class Reservation implements DatabaseModel {
   int id = 0;
   int guestIdReservation = 0;
   DateTime startDate = DateTime.now();
-  DateTime endtDate = DateTime.now();
+  DateTime endDate = DateTime.now();
   DateTime tsCreatedReservation = DateTime.now();
   DateTime tsUpdatedReservation = DateTime.now();
   int discountPercent = 0;
   double totalPrice = 0;
+  int numberOfPersons = 1;
   int reservationStatusCatalogId = 0;
 
   Reservation({
     required this.id,
     required this.guestIdReservation,
     required this.startDate,
-    required this.endtDate,
+    required this.endDate,
     required this.tsCreatedReservation,
     required this.tsUpdatedReservation,
     required this.discountPercent,
     required this.totalPrice,
+    required this.numberOfPersons,
     required this.reservationStatusCatalogId,
   });
 
@@ -37,14 +39,15 @@ class Reservation implements DatabaseModel {
     DateTime tsUpdatedDate =
         DateTime.fromMillisecondsSinceEpoch(map['ts_updated']);
     // Assign variables to values from db
-    id = map['reservation_id'];
+    id = map['id'];
     guestIdReservation = map['guest_id'];
     startDate = realStartDate;
-    endtDate = realEndDate;
+    endDate = realEndDate;
     tsCreatedReservation = tsCreatedDate;
     tsUpdatedReservation = tsUpdatedDate;
     discountPercent = map['discount_percent'];
     totalPrice = realPrice;
+    numberOfPersons = map['number_of_persons'];
     reservationStatusCatalogId = map['reservation_status_catalog_id'];
   }
 
@@ -65,11 +68,11 @@ class Reservation implements DatabaseModel {
     int storedPrice = (totalPrice * 100).round();
     // Convert dateTime to int
     int storedStartDate = startDate.millisecondsSinceEpoch;
-    int storedEndDate = endtDate.millisecondsSinceEpoch;
+    int storedEndDate = endDate.millisecondsSinceEpoch;
     int storeTsCreatedDate = tsCreatedReservation.millisecondsSinceEpoch;
     int storeTsUpdatedDate = tsUpdatedReservation.millisecondsSinceEpoch;
     return {
-      'reservation_id': id,
+      'id': id,
       'guest_id': guestIdReservation,
       'start_date': storedStartDate,
       'end_date': storedEndDate,
@@ -77,6 +80,7 @@ class Reservation implements DatabaseModel {
       'ts_updated': storeTsUpdatedDate,
       'discount_percent': discountPercent,
       'total_price': storedPrice,
+      'number_of_persons': numberOfPersons,
       'reservation_status_catalog_id': reservationStatusCatalogId,
     };
   }

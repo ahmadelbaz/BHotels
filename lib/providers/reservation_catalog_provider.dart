@@ -19,4 +19,11 @@ class ReservationCatalogProvider extends ChangeNotifier {
         as List<ReservationStatusCatalog>;
     notifyListeners();
   }
+
+  // Get Reservaiton status catalog using id
+  String getStatusCatalog(int id) {
+    ReservationStatusCatalog catalog =
+        _reservationCatalogs.firstWhere((cat) => cat.id == id);
+    return catalog.name;
+  }
 }

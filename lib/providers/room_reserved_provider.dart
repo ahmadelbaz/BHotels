@@ -12,7 +12,7 @@ class RoomReservedProvider extends ChangeNotifier {
   DBHelper myDatabase = DBHelper();
 
   // Insert new room reserved into database
-  Future<void> insertNewGuest(RoomReserved model) async {
+  Future<void> insertNewRoomReserved(RoomReserved model) async {
     await myDatabase.hotelDatabase();
     _roomsReserved.add(model);
     await myDatabase.insert(model);

@@ -12,7 +12,7 @@ class Category implements DatabaseModel {
 
 // Handle the data that is coming from db
   Category.fromMap(Map<String, dynamic> map) {
-    id = map['category_id'];
+    id = map['id'];
     name = map['category_name'];
   }
 
@@ -30,7 +30,7 @@ class Category implements DatabaseModel {
   @override
   Map<String, dynamic>? toMap() {
     return {
-      'category_id': id,
+      'id': id,
       'category_name': name,
     };
   }

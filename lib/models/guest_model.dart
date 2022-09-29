@@ -26,7 +26,7 @@ class Guest implements DatabaseModel {
   Guest.fromMap(Map<String, dynamic> map) {
     // Convert int to bool
     bool hasPrevBook = map['has_previous_booking'] == 1 ? true : false;
-    id = map['guest_id'];
+    id = map['id'];
     firstName = map['first_name'];
     lastName = map['last_name'];
     guestEmail = map['guest_email'];
@@ -52,12 +52,13 @@ class Guest implements DatabaseModel {
     // Convert bool to int
     int hasPrevBook = hasPreviousBooking ? 1 : 0;
     return {
-      'guest_id': id,
+      'id': id,
       'first_name': firstName,
       'last_name': lastName,
       'guest_email': guestEmail,
       'guest_phone': guestPhone,
       'address': address,
+      'details': details,
       'has_previous_booking': hasPrevBook,
     };
   }

@@ -5,12 +5,10 @@ import '../../constants.dart';
 class CustomTextField extends StatelessWidget {
   final String hint;
   final IconData icon;
-  final String errorMessage;
   final onSave;
   final validator;
 
-  CustomTextField(
-      this.hint, this.icon, this.errorMessage, this.onSave, this.validator);
+  CustomTextField(this.hint, this.icon, this.onSave, this.validator);
 
   late FocusNode passwordFocusNode = FocusNode();
 
@@ -21,12 +19,17 @@ class CustomTextField extends StatelessWidget {
       child: TextFormField(
         onSaved: onSave,
         validator: validator,
-        cursorColor: kMainColor,
-        obscureText: hint == 'Enter your password' ? true : false,
-        autofocus: hint == 'Enter your password' ? false : true,
-        focusNode: hint == 'Enter your password' ? passwordFocusNode : null,
+        cursorColor: primaryColor,
+        obscureText: hint == 'Password' ? true : false,
+        autofocus: hint == 'Password' ? false : true,
+        focusNode: hint == 'Password' ? passwordFocusNode : null,
         textInputAction: TextInputAction.next,
-        onFieldSubmitted: hint != 'Enter your password'
+        keyboardType: hint == 'Email'
+            ? TextInputType.emailAddress
+            : hint == 'Phone number'
+                ? TextInputType.phone
+                : TextInputType.text,
+        onFieldSubmitted: hint != 'Password'
             ? (term) {
                 passwordFocusNode.requestFocus();
               }
@@ -35,7 +38,7 @@ class CustomTextField extends StatelessWidget {
           hintText: hint,
           prefixIcon: Icon(
             icon,
-            color: kMainColor,
+            color: primaryColor,
           ),
           filled: true,
           fillColor: kSecondaryColor,

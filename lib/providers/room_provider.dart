@@ -9,14 +9,17 @@ class RoomProvider extends ChangeNotifier {
   List<Room> _rooms = [];
   UnmodifiableListView get rooms => UnmodifiableListView(_rooms);
 
+  // Variable for how many persons should be in the room
+  int _nOfPersons = 1;
+  int get nOfPersons => _nOfPersons;
+
   // List of all abailable rooms in this branchaonly
   final List<Room> _branchRooms = [];
-  UnmodifiableListView get branchRooms => UnmodifiableListView(_branchRooms);
+  List<Room> get branchRooms => _branchRooms;
 
   // List for selected rooms from the user to Book
   final List<Room> _selectedRooms = [];
-  UnmodifiableListView get selectedRooms =>
-      UnmodifiableListView(_selectedRooms);
+  List<Room> get selectedRooms => _selectedRooms;
 
   // Variable to detect which branch that user selected
   int _userSelectedBranch = 0;
@@ -51,7 +54,7 @@ class RoomProvider extends ChangeNotifier {
   }
 
   // Add room to  or remove it from the selected list to book it
-  addToSeletedRooms(int id) {
+  updateSeletedRooms(int id) {
     Room selectedRoom = _rooms.firstWhere((room) => room.id == id);
     if (!checkSelectedRoom(id) && selectedRoom.isAvailable) {
       _selectedRooms.add(selectedRoom);
@@ -65,5 +68,51 @@ class RoomProvider extends ChangeNotifier {
   bool checkSelectedRoom(int id) {
     Room selectRoom = _rooms.firstWhere((room) => room.id == id);
     return _selectedRooms.contains(selectRoom);
+  }
+
+  // Calculate total price
+  double calculateTotalPrice(bool hasDiscount) {
+    double totalPrice = 0;
+    for (Room room in selectedRooms) {
+      if (hasDiscount) {
+        totalPrice += room.currentPrice - room.currentPrice * 0.95;
+      } else {
+        totalPrice += room.currentPrice;
+      }
+    }
+    return double.parse(totalPrice.toStringAsFixed(2));
+  }
+
+  // Check if there is double rooms or suites available
+  bool checkForDouble() {
+    bool moreThanOne = false;
+    for (Room room in selectedRooms) {
+      if (room.roomTypeIdRoom != 0) {
+        moreThanOne = true;
+      }
+    }
+    return moreThanOne;
+  }
+
+  // Increase no of person
+  increaseNoOfPersons() {
+    _nOfPersons += 1;
+    notifyListeners();
+  }
+
+  // Decrease no of person
+  decreaseNoOfPersons() {
+    _nOfPersons -= 1;
+    notifyListeners();
+  }
+
+  // Mark Room as booked
+  Future<void> markroomAsBooked(int id) async {
+    await myDatabase.hotelDatabase();
+    Room n = _rooms.firstWhere((room) => room.id == id);
+    int index = _rooms.indexOf(n);
+    _rooms[index].isAvailable = false;
+    await myDatabase.update(_rooms[index]);
+    notifyListeners();
   }
 }

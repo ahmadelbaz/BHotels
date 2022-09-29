@@ -12,7 +12,7 @@ class RoomType implements DatabaseModel {
 
 // Handle the data that is coming from db
   RoomType.fromMap(Map<String, dynamic> map) {
-    id = map['room_type_id'];
+    id = map['id'];
     name = map['type_name'];
   }
 
@@ -30,7 +30,7 @@ class RoomType implements DatabaseModel {
   @override
   Map<String, dynamic>? toMap() {
     return {
-      'room_type_id': id,
+      'id': id,
       'type_name': name,
     };
   }

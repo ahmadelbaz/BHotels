@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bhotels/database/db_consts.dart';
 import 'package:bhotels/models/branch_model.dart';
 import 'package:bhotels/models/category_model.dart';
@@ -22,79 +20,80 @@ class DBHelper extends ChangeNotifier {
   // HCountries & cities Subject Area
   static const country = 'country';
 
-  static const countryId = 'country_id';
+  static const countryId = 'id';
   static const countryName = 'country_name';
 
   static const city = 'city';
 
-  static const cityId = 'city_id';
+  static const cityId = 'id';
   static const cityName = 'city_name';
   static const postalCode = 'postal_code';
-  static const countryIdCity = countryId;
+  static const countryIdCity = 'country_id';
 
   // Hotel Subject Area
   static const category = 'category';
 
-  static const categoryId = 'category_id';
+  static const categoryId = 'id';
   static const categoryName = 'category_name';
 
   static const branch = 'branch';
 
-  static const branchId = 'branch_id';
+  static const branchId = 'id';
   static const branchName = 'branch_name';
   static const description = 'branch_description';
   static const branchEmail = 'branch_email';
   static const branchPhone = 'branch_phone';
-  static const cityIdBranch = cityId;
+  static const cityIdBranch = 'city_id';
   static const branchAddress = 'branch_address';
-  static const categoryIdBranch = categoryId;
+  static const categoryIdBranch = 'category_id';
   static const isAcive = 'is_active';
 
   static const room = 'room';
 
-  static const roomId = 'room_id';
+  static const roomId = 'id';
   static const roomName = 'room_name';
   static const roomDdescription = 'description';
-  static const branchIdRoom = branchId;
-  static const roomTypeIdRoom = roomTypeId;
+  static const branchIdRoom = 'branch_id';
+  static const roomTypeIdRoom = 'room_type_id';
   static const currentPrice = 'current_price';
   static const isAvailable = 'is_available';
 
   static const roomType = 'room_type';
 
-  static const roomTypeId = 'room_type_id';
+  static const roomTypeId = 'id';
   static const typeName = 'type_name';
 
 // Reservations Subject Area
   static const reservation = 'reservation';
 
-  static const reservationId = 'reservation_id';
-  static const guestIdReservation = guestId;
+  static const reservationId = 'id';
+  static const guestIdReservation = 'guest_id';
   static const startDate = 'start_date';
   static const endtDate = 'end_date';
   static const tsCreatedReservation = 'ts_created_reservation';
   static const tsUpdatedReservation = 'ts_updated';
   static const discountPercent = 'discount_percent';
   static const totalPrice = 'total_price';
+  static const numberOfPersons = 'number_of_persons';
   static const reservationStatusCatalodIdReservation =
-      reservationStatusCatalogId;
+      'reservation_status_catalog_id';
 
   static const roomReserved = 'room_reserved';
 
-  static const roomReservedId = 'room_reserved_id';
-  static const reservationIdRoomReserved = reservationId;
-  static const roomIdRoomReserved = roomId;
+  static const roomReservedId = 'id';
+  static const reservationIdRoomReserved = 'reservation_id';
+  static const roomIdRoomReserved = 'room_id';
   static const price = 'price';
 
   static const reservationStatusCatalog = 'reservation_status_catalog';
 
-  static const reservationStatusCatalogId = 'reservation_status_catalog_id';
+  static const reservationStatusCatalogId = 'id';
   static const statusName = 'status_name';
 
 // Guests Subject Area
   static const guest = 'guest';
 
-  static const guestId = 'guest_id';
+  static const guestId = 'id';
   static const firstName = 'first_name';
   static const lastName = 'last_name';
   static const guestEmail = 'guest_email';
@@ -105,9 +104,9 @@ class DBHelper extends ChangeNotifier {
 
   static const invoiceGuest = 'invoice_guest';
 
-  static const invoiceGuestId = 'invoice_guest_id';
-  static const guestIdInvoice = guestId;
-  static const reservationIdInvoice = reservationId;
+  static const invoiceGuestId = 'id';
+  static const guestIdInvoice = 'guest_id';
+  static const reservationIdInvoice = 'reservation_id';
   static const invoiceAmount = 'invoice_amount';
   static const tsIssued = 'ts_issued';
   static const tsPaid = 'ts_paid';
@@ -150,7 +149,7 @@ class DBHelper extends ChangeNotifier {
       // Reservation Table and its data
       batch.execute('DROP TABLE IF EXISTS $reservation');
       batch.execute('''CREATE TABLE $reservation (
-          $reservationId INTEGER PRIMARY KEY AUTOINCREMENT, $guestIdReservation INTEGER, $startDate INTEGER, $endtDate INTEGER, $tsCreatedReservation INTEGER, $tsUpdatedReservation INTEGER, $discountPercent INTEGER, $totalPrice INTEGER, $reservationStatusCatalodIdReservation INTEGER
+          $reservationId INTEGER PRIMARY KEY AUTOINCREMENT, $guestIdReservation INTEGER, $startDate INTEGER, $endtDate INTEGER, $tsCreatedReservation INTEGER, $tsUpdatedReservation INTEGER, $discountPercent INTEGER, $totalPrice INTEGER, $numberOfPersons INTEGER, $reservationStatusCatalodIdReservation INTEGER
       )''');
       // Room Reserved Type Table and its data
       batch.execute('DROP TABLE IF EXISTS $roomReserved');
@@ -176,37 +175,30 @@ class DBHelper extends ChangeNotifier {
       for (Country n in defaultCountreis) {
         batch.insert('country', n.toMap()!,
             conflictAlgorithm: ConflictAlgorithm.replace);
-        log('defaultCountreis no. = ${defaultCountreis.length}');
       }
       for (City n in defaultCities) {
         batch.insert('city', n.toMap()!,
             conflictAlgorithm: ConflictAlgorithm.replace);
-        log('defaultCities no. = ${defaultCities.length}');
       }
       for (Category n in defaultCategories) {
         batch.insert('category', n.toMap()!,
             conflictAlgorithm: ConflictAlgorithm.replace);
-        log('defaultCategories no. = ${defaultCategories.length}');
       }
       for (Branch n in defaultBranches) {
         batch.insert('branch', n.toMap()!,
             conflictAlgorithm: ConflictAlgorithm.replace);
-        log('branches no. = ${defaultBranches.length}');
       }
       for (RoomType n in defaultRoomTypes) {
         batch.insert('room_type', n.toMap()!,
             conflictAlgorithm: ConflictAlgorithm.replace);
-        log('defaultRoomTypes no. = ${defaultRoomTypes.length}');
       }
       for (Room n in defaultRooms) {
         batch.insert('room', n.toMap()!,
             conflictAlgorithm: ConflictAlgorithm.replace);
-        log('defaultRooms no. = ${defaultRooms.length}');
       }
       for (ReservationStatusCatalog n in defaultReservationCatalogs) {
         batch.insert('reservation_status_catalog', n.toMap()!,
             conflictAlgorithm: ConflictAlgorithm.replace);
-        log('defaultReservationCatalogs no. = ${defaultReservationCatalogs.length}');
       }
     }
 
@@ -259,6 +251,14 @@ class DBHelper extends ChangeNotifier {
       where: 'id = ?',
       whereArgs: [model.getId()],
     );
+    notifyListeners();
+  }
+
+  // Clear table data from database
+  Future<void> clearTable(String table) async {
+    final db = await hotelDatabase();
+    db.delete(table);
+    notifyListeners();
   }
 
   // Method to get data from database to use it in the app

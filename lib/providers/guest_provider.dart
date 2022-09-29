@@ -10,7 +10,7 @@ class GuestProvider extends ChangeNotifier {
     id: 0,
     firstName: 'u1',
     lastName: 'l1',
-    guestEmail: 'e@e',
+    guestEmail: '',
     guestPhone: '01',
     address: 'a',
     details: 'd',
